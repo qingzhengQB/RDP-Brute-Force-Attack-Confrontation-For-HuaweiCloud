@@ -1,0 +1,23 @@
+{
+    "name": "RDP Brute-Force Attack Confrontation",
+    "help": {
+        "description": "这是设置文件相关字段说明/This is a description of the fields related to the configuration file",
+        "content": {
+            "DetectionInterval": "检测RDP攻击时间间隔（以分钟作为单位）/Detection RDP attack time interval (in minutes)",
+            "DetectionTimePeriod": "获取RDP攻击的Windows日志截取时间段，例如填入3600即为获取当前时间的前3600分钟的RDP攻击日志/Get RDP attack Windows log time period, for example, input 3600 means to get the RDP attack log of the current time minus 3600 minutes",
+            "IPTryTimes": "IP尝试登陆次数/IP attempt login times",
+            "IPBlockTime": "IP封禁时间（以天作为单位）/IP ban time (in days)"
+        }
+    },
+    "DetectionInterval": 2,
+    "DetectionTimePeriod": 4320,
+    "IPTryTimes": 3,
+    "IPBlockTime": 5,
+    "UsedServerProvider": "Huawei cloud",
+    "Huawei cloud": {
+        "AK": "AK*****************",
+        "SK": "SK*****************",
+        "VPS ID": "********************",
+        "region": "cn-north-4"
+    }
+}
