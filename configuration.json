@@ -6,7 +6,14 @@
             "DetectionInterval": "检测RDP攻击时间间隔（以分钟作为单位）/Detection RDP attack time interval (in minutes)",
             "DetectionTimePeriod": "获取RDP攻击的Windows日志截取时间段，例如填入3600即为获取当前时间的前3600分钟的RDP攻击日志/Get RDP attack Windows log time period, for example, input 3600 means to get the RDP attack log of the current time minus 3600 minutes",
             "IPTryTimes": "IP尝试登陆次数/IP attempt login times",
-            "IPBlockTime": "IP封禁时间（以天作为单位）/IP ban time (in days)"
+            "IPBlockTime": "IP封禁时间（以天作为单位）/IP ban time (in days)",
+            "UsedServerProvider": "目前没什么用，后续支持其他云服务器的话可以用来填要使用的云服务器厂商或防火墙使用",
+            "Huawei cloud": {
+                "AK": "华为账号的 AK",
+                "SK": "华为账号的 SK。详见 https://support.huaweicloud.com/devg-apisign/api-sign-provide-aksk.html",
+                "VPS ID": "服务器实例绑定的VPS安全组的ID",
+                "region": "实例所在地区"
+            }        
         }
     },
     "DetectionInterval": 2,
