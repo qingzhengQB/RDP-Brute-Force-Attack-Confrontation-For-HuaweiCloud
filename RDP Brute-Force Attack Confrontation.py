@@ -166,6 +166,7 @@ def detect():
         print('')
 
 def RemoveExpiredBannedIPs():
+    global lastTime
     if datetime.now().date() > lastTime:
         if os.path.exists(os.path.join(logPath, f"{datetime.now().strftime('%Y-%m-%d')}.log")):
             logFile=open(os.path.join(logPath, f"{datetime.now().strftime('%Y-%m-%d')}.log"), 'r')
@@ -175,6 +176,7 @@ def RemoveExpiredBannedIPs():
                 print('安全组移除IP: '+line)
         else:
             print(f"No log {datetime.now().strftime('%Y-%m-%d')}.log file found")
+        lastTime=datetime.now().date()
         print('')
 
 if __name__ == "__main__":
