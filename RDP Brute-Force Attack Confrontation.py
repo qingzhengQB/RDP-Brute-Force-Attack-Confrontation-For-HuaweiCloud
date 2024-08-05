@@ -9,9 +9,9 @@ from time import sleep
 from datetime import datetime, timedelta
 from collections import Counter
 from huaweicloudsdkcore.auth.credentials import BasicCredentials
-from huaweicloudsdkvpc.v2.region.vpc_region import VpcRegion
+from huaweicloudsdkvpc.v3.region.vpc_region import VpcRegion
 from huaweicloudsdkcore.exceptions import exceptions
-from huaweicloudsdkvpc.v2 import *
+from huaweicloudsdkvpc.v3 import *
 
 # The AK and SK used for authentication are hard-coded or stored in plaintext, which has great security risks. It is recommended that the AK and SK be stored in ciphertext in configuration files or environment variables and decrypted during use to ensure security.
 # In this example, AK and SK are stored in environment variables for authentication. Before running this example, set environment variables CLOUD_SDK_AK and CLOUD_SDK_SK in the local environment
@@ -51,10 +51,9 @@ def addBlockIP(blockIP):
             security_group_id=vpsid,
             description=f"脚本自动添加-RDP攻击拦截/Script auto-add-RDP attack blocking {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
             direction="ingress",
-            protocol="tcp",
-            port_range_min=1,
-            port_range_max=65535,
-            remote_ip_prefix=blockIP
+            remote_ip_prefix=blockIP,
+            action="deny",
+            priority="1"
         )
         request.body = CreateSecurityGroupRuleRequestBody(
             security_group_rule=securityGroupRulebody
@@ -62,7 +61,6 @@ def addBlockIP(blockIP):
         response = client.create_security_group_rule(request)
         print("封禁IP："+blockIP)
         print(response)
-
         file_path = os.path.join(logPath, f"{datetime.now().strftime('%Y-%m-%d')}.log")
         with open(file_path, 'a', encoding='utf-8') as file:
             file.write(blockIP + '\n')
@@ -72,12 +70,11 @@ def addBlockIP(blockIP):
         print(e.request_id)
         print(e.error_code)
         print(e.error_msg)
-        if e.error_msg.contains('Security group rule already exists.'):
+        if 'Security group rule already exists.' in e.error_msg:
             file_path = os.path.join(logPath, f"{datetime.now().strftime('%Y-%m-%d')}.log")
             with open(file_path, 'a', encoding='utf-8') as file:
                 file.write(blockIP + '\n')
-            print(f'IP已追加到 {file_path}')
-
+            print(f'IP规则被提前追加，已记录到 {file_path}')
 def getSecurityGroupRules():
     credentials = BasicCredentials(ak, sk)
 
@@ -90,6 +87,7 @@ def getSecurityGroupRules():
         request.security_group_id = vpsid
         return client.show_security_group(request)
     except exceptions.ClientRequestException as e:
+        print('获取安全组规则失败')
         print(e.status_code)
         print(e.request_id)
         print(e.error_code)
